@@ -1,0 +1,17 @@
+body{
+  margin:0;
+  overflow:hidden;
+}
+
+h1{
+  position:absolute;
+}
+
+#WebGL-output{
+  position:absolute;
+}
+
+canvas {
+  height: 600px;
+  width: 800px;
+}
