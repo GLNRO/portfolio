@@ -1,12 +1,12 @@
-$(document).ready(function(){
+$(function(){
 
-  console.log("hello");
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
 
     var renderer = new THREE.WebGLRenderer();
     renderer.setClearColor(0xffffff, 1);
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMapEnabled = true;
 
     var axes = new THREE.AxisHelper(20);
     scene.add(axes);
@@ -20,6 +20,8 @@ $(document).ready(function(){
     plane.position.y = 0;
     plane.position.z = 0;
 
+    plane.receiveShadow = true;
+
     scene.add(plane);
 
     var cubeGeometry = new THREE.CubeGeometry(4,4,4);
@@ -29,6 +31,8 @@ $(document).ready(function(){
     cube.position.x = -4;
     cube.position.y = 3;
     cube.position.z = 0;
+
+    cube.castShadow = true;
 
     scene.add(cube);
 
@@ -40,10 +44,13 @@ $(document).ready(function(){
     sphere.position.y = 4;
     sphere.position.z = 2;
 
+    sphere.castShadow = true;
+
     scene.add(sphere);
 
     var spotLight = new THREE.SpotLight( 0xffffff );
     spotLight.position.set( -40, 60, -10);
+    spotLight.castShadow = true;
     scene.add(spotLight);
 
     camera.position.x = -30;
@@ -51,6 +58,19 @@ $(document).ready(function(){
     camera.position.z = 30;
     camera.lookAt(scene.position);
 
-    document.body.appendChild(renderer.domElement);
-    renderer.render(scene,camera);
+    var step = 0;
+
+    function render(){
+      step += 0.04;
+      sphere.position.x = 20+(10*(Math.cos(step)));
+      sphere.position.y = 2 +(10*Math.abs(Math.sin(step)));
+      cube.rotation.x += 0.02;
+      cube.rotation.y += 0.02;
+      cube.rotation.z += 0.02;
+      requestAnimationFrame(render);
+      renderer.render(scene,camera);
+    }
+
+    $('#WebGL-output').append(renderer.domElement);
+    render();
 });
