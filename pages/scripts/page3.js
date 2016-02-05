@@ -1,17 +1,15 @@
 $(function(){
-   if (document.getElementById('WebGL-output-2')) {
+   if (document.getElementById('WebGL-output-3')) {
 
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 1000);
-    // scene.fog = new THREE.Fog( 0xffffff, 0.015, 100);
-    // scene.overrideMaterial = new THREE.MeshLambertMaterial({color:0xc6c6c6})
 
     var renderer = new THREE.WebGLRenderer();
     renderer.setClearColor(0xffffff, 1);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.shadowMapEnabled = true;
 
-     var axes = new THREE.AxisHelper(20);
+    var axes = new THREE.AxisHelper(20);
     scene.add(axes);
 
     var planeGeometry = new THREE.PlaneGeometry(60,40,1,1);
@@ -43,7 +41,6 @@ $(function(){
 
     var controls = new function () {
         this.numberOfObjects = scene.children.length;
-
         this.addCube = function () {
             var cubeSize = Math.ceil((Math.random() * 3));
             var cubeGeometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
@@ -59,46 +56,11 @@ $(function(){
             scene.add(cube);
             this.numberOfObjects = scene.children.length;
         };
-        this.removeCube = function (){
-          var children = scene.children;
-          var last = children[children.length-1];
-          if (last.geometry.type == "BoxGeometry"){
-            scene.remove(last);
-            this.numberOfObjects = scene.children.length;
-          }
-        };
-        this.addSphere = function () {
-          var sphereSize = 2;
-          var sphereGeometry = new THREE.SphereGeometry(sphereSize,20,20);
-          var sphereMaterial = new THREE.MeshLambertMaterial({color: Math.random() * 0x7777ff, wireframe:true});
-          var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-          sphere.name = "sphere-" + scene.children.length;
-
-          sphere.position.x = -30 + Math.round((Math.random() * planeGeometry.parameters.width));
-          sphere.position.y = Math.round((Math.random() * 5));
-          sphere.position.z = -20 + Math.round((Math.random() * planeGeometry.parameters.height));
-          this.numberOfObjects = scene.children.length;
-          scene.add(sphere);
-        };
-        this.removeSphere = function () {
-          var children = scene.children;
-          var last = children[children.length-1];
-          if (last.geometry.type == "SphereGeometry"){
-            scene.remove(last);
-            this.numberOfObjects = scene.children.length;
-          }
-        };
-        this.outputObjects = function () {
-            console.log(scene.children);
-        };
     };
     var gui = new dat.GUI();
     gui.add(controls, 'addCube');
-    gui.add(controls, 'addSphere');
-    gui.add(controls, 'removeCube');
-    gui.add(controls, 'removeSphere');
-    gui.add(controls, 'outputObjects');
     gui.add(controls, 'numberOfObjects').listen();
+
 
 
     function render(){
@@ -107,7 +69,7 @@ $(function(){
     }
 
 
-    $('#WebGL-output-2').append(renderer.domElement);
+    $('#WebGL-output-3').append(renderer.domElement);
     render();
 
    }
