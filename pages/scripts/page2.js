@@ -12,32 +12,18 @@ $(function(){
      var axes = new THREE.AxisHelper(20);
     scene.add(axes);
 
-    var planeGeometry = new THREE.PlaneGeometry(60,20,1,1);
+    var planeGeometry = new THREE.PlaneGeometry(60,40,1,1);
     var planeMaterial = new THREE.MeshLambertMaterial({color:0x7777ff});
     var plane = new THREE.Mesh(planeGeometry,planeMaterial);
 
     plane.rotation.x = -0.5*Math.PI;
-    plane.position.x = 15;
+    plane.position.x = 10;
     plane.position.y = 0;
     plane.position.z = 0;
 
     plane.receiveShadow = true;
 
     scene.add(plane);
-
-
-    var cubeGeometry = new THREE.CubeGeometry(4,4,4);
-    var cubeMaterial = new THREE.MeshLambertMaterial({color:0xff0000});
-    var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-
-    cube.position.x = 0;
-    cube.position.y = 2;
-    cube.position.z = 0;
-
-    cube.castShadow = true;
-    scene.add(cube)
-
-
 
     var ambientLight = new THREE.AmbientLight(0x0c0c0c);
     scene.add(ambientLight);
@@ -53,21 +39,46 @@ $(function(){
     camera.position.z = 30;
     camera.lookAt(scene.position);
 
+    var controls = new function () {
+        this.numberOfObjects = scene.children.length;
 
-    function addCube(){
+        this.addCube = function () {
+            var cubeSize = Math.ceil((Math.random() * 3));
+            var cubeGeometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
+            var cubeMaterial = new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff});
+            var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+            cube.castShadow = true;
+            cube.name = "cube-" + scene.children.length;
 
-      var cubeSize = Math.ceil((Math.random() * 3));
-      var cubeGeometry = new THREE.CubeGeometry(cubeSize, cubeSize, cubeSize);
-      var cubeMaterial = new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff});
-      cube.castShadow=true;
-      cube.name = "cube-" + scene.children.length;
-      cube.position.x = -30 + Math.round(Math.random()*planeGeometry.width));
-      cube.position.y = Math.round(Math.random()*5));
-      cube.position.z = -20 + Math.round(Math.random()*planeGeometry.height));
+            cube.position.x = -30 + Math.round((Math.random() * planeGeometry.parameters.width));
+            cube.position.y = Math.round((Math.random() * 5));
+            cube.position.z = -20 + Math.round((Math.random() * planeGeometry.parameters.height));
 
-      scene.add(cube);
-      this.numberOfObjects = scene.children.length;
-    }
+            scene.add(cube);
+            this.numberOfObjects = scene.children.length;
+        };
+        this.addSphere = function () {
+          var sphereSize = 2;
+          var sphereGeometry = new THREE.SphereGeometry(sphereSize,20,20);
+          var sphereMaterial = new THREE.MeshLambertMaterial({color: Math.random() * 0x7777ff});
+          var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+          sphere.name = "sphere-" + scene.children.length;
+
+          sphere.position.x = -30 + Math.round((Math.random() * planeGeometry.parameters.width));
+          sphere.position.y = Math.round((Math.random() * 5));
+          sphere.position.z = -20 + Math.round((Math.random() * planeGeometry.parameters.height));
+          this.numberOfObjects = scene.children.length;
+          scene.add(sphere);
+        }
+        this.outputObjects = function () {
+            console.log(scene.children);
+        }
+    };
+    var gui = new dat.GUI();
+    gui.add(controls, 'addCube');
+    gui.add(controls, 'addSphere');
+    gui.add(controls, 'outputObjects');
+    gui.add(controls, 'numberOfObjects').listen();
 
 
     function render(){
