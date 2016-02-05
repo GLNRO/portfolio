@@ -57,6 +57,14 @@ $(function(){
             scene.add(cube);
             this.numberOfObjects = scene.children.length;
         };
+        this.removeCube = function (){
+          var children = scene.children;
+          var last = children[children.length-1];
+          if (last.geometry.type == "BoxGeometry"){
+            scene.remove(last);
+            this.numberOfObjects = scene.children.length;
+          }
+        };
         this.addSphere = function () {
           var sphereSize = 2;
           var sphereGeometry = new THREE.SphereGeometry(sphereSize,20,20);
@@ -69,14 +77,24 @@ $(function(){
           sphere.position.z = -20 + Math.round((Math.random() * planeGeometry.parameters.height));
           this.numberOfObjects = scene.children.length;
           scene.add(sphere);
-        }
+        };
+        this.removeSphere = function () {
+          var children = scene.children;
+          var last = children[children.length-1];
+          if (last.geometry.type == "SphereGeometry"){
+            scene.remove(last);
+            this.numberOfObjects = scene.children.length;
+          }
+        };
         this.outputObjects = function () {
             console.log(scene.children);
-        }
+        };
     };
     var gui = new dat.GUI();
     gui.add(controls, 'addCube');
     gui.add(controls, 'addSphere');
+    gui.add(controls, 'removeCube');
+    gui.add(controls, 'removeSphere');
     gui.add(controls, 'outputObjects');
     gui.add(controls, 'numberOfObjects').listen();
 
