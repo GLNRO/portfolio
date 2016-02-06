@@ -56,11 +56,44 @@ $(function(){
             scene.add(cube);
             this.numberOfObjects = scene.children.length;
         };
+
+
     };
     var gui = new dat.GUI();
     gui.add(controls, 'addCube');
+    // gui.add(controls,'addOther');
     gui.add(controls, 'numberOfObjects').listen();
 
+
+
+
+      var points = [
+      new THREE.Vector3(2, 5, 2),
+      new THREE.Vector3(-10, -15, 5),
+      new THREE.Vector3(-2, 2, -2),
+        ];
+      var faces =
+      [
+      new THREE.Face3(0,2,1),
+
+      ];
+      var geom = new THREE.Geometry();
+      geom.vertices = points;
+      geom.faces = faces;
+      geom.computeFaceNormals();
+
+      var materials = [
+        new THREE.MeshLambertMaterial({color: 0xc6c6c6}),
+        new THREE.MeshBasicMaterial({color: 0xc6c6c6, wireframe: true})
+      ];
+      var mesh = THREE.SceneUtils.createMultiMaterialObject(geom, materials);
+              mesh.children.forEach(function (e) {
+                  e.castShadow = true
+              });
+      mesh.position.y = 5;
+      scene.add(mesh);
+     debugger
+     // mesh.children[0].geometry.vertices = new THREE.Vector3(10,10,10)
 
 
     function render(){
@@ -71,6 +104,7 @@ $(function(){
 
     $('#WebGL-output-3').append(renderer.domElement);
     render();
+    debugger
 
    }
 });
