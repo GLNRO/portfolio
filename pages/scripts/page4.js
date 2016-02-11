@@ -51,6 +51,48 @@ function setControlObject(){
   };
 }
 
+function onLoadCallback(loaded){
+  if (loaded.length){
+    console.log('Loaded'.loaded.length);
+  }
+  else {
+    console.log("Loaded",loaded);
+  }
+}
+
+function onProgressCallback(progress){
+  console.log("Progress",progress);
+}
+
+function onErrorCallback(error){
+  console.log("Error",error);
+}
+
+function loadTexture(texture){
+  var texture = THREE.ImageUtils.loadTexture(textureUrl,null,onLoadCallback,onErrorCallback);
+  console.log("texture after loadTexture call", texture);
+}
+
+function setupKeyControls(){
+
+  document.onkeydown = function(e) {
+    switch (e.keyCode) {
+      case 37:
+      cube.rotation.x += 0.05;
+      break;
+      case 38:
+      cube.rotation.z -= 0.05;
+      break;
+      case 39:
+      cube.rotation.x -=0.05;
+      break;
+      case 40:
+      cube.rotation.z += 0.05;
+      break;
+    }
+  }
+}
+
 function init(){
 
   setControlObject();
@@ -59,6 +101,7 @@ function init(){
 
   generateScene();
   addCube();
+  setupKeyControls();
 
   document.body.appendChild(renderer.domElement);
   render();

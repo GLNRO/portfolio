@@ -3,13 +3,26 @@ body{
   overflow:hidden;
 }
 
-
+a {
+}
 
 #WebGL-output{
-  position:absolute;
+  position:relative;
 }
 
 canvas {
   height: 600px;
   width: 800px;
+}
+
+#holder{
+  border: 2px dashed #ccc;
+  width: 150px;
+  height: 150px;
+  margin: 20px auto;
+  position:relative;
+}
+
+#holder.hover {
+  border: 10px dashed #333;
 }
