@@ -45,3 +45,15 @@ canvas {
 #holder.hover {
   border: 10px dashed #333;
 }
+h1{
+  margin:0px;
+  padding: .5em;
+  font-family: Futura;
+  color:#42b4d6;
+}
+
+h2{
+  margin:0px;
+  font-family: Futura;
+  color:#42b4d6;
+}
